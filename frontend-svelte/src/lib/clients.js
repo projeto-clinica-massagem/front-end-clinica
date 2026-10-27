@@ -7,7 +7,7 @@ export async function getClients() {
 }
 
 export async function createClient(client) {
-  const payload = isMockApi() ? client : { ...client, role: 'client' };
+  const payload = { ...client, role: 'client' };
   return request(isMockApi() ? '/clients' : '/users/', { method: 'POST', body: JSON.stringify(payload) });
 }
 

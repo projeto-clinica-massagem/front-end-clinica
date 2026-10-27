@@ -54,8 +54,8 @@ test('abre e salva o modal de clientes', async ({ page }) => {
   await page.getByRole('button', { name: /Novo cliente/ }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.getByLabel('Nome *').fill('Cliente E2E');
-  await page.getByLabel('E-mail *').fill('cliente-e2e@example.com');
-  await page.getByLabel('Senha *').fill('cliente-e2e');
+  await page.getByLabel('CPF *').fill('52998224725');
+  await page.getByLabel('Telefone *').fill('+55 11 99999-0000');
   await page.getByRole('button', { name: 'Criar cliente' }).click();
   await expect(page.getByText('Cliente E2E')).toBeVisible();
 });
