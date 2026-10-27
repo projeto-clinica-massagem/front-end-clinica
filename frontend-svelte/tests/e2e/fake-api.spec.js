@@ -48,6 +48,18 @@ test('abre e salva o modal de serviços', async ({ page }) => {
   await expect(page.getByText('Serviço E2E')).toBeVisible();
 });
 
+test('abre e salva o modal de clientes', async ({ page }) => {
+  await login(page);
+  await page.getByRole('link', { name: /Clientes/ }).click();
+  await page.getByRole('button', { name: /Novo cliente/ }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.getByLabel('Nome *').fill('Cliente E2E');
+  await page.getByLabel('E-mail *').fill('cliente-e2e@example.com');
+  await page.getByLabel('Senha *').fill('cliente-e2e');
+  await page.getByRole('button', { name: 'Criar cliente' }).click();
+  await expect(page.getByText('Cliente E2E')).toBeVisible();
+});
+
 test('exporta dashboard e vendas em CSV', async ({ page }) => {
   await login(page);
   const dashboardDownload = page.waitForEvent('download');
