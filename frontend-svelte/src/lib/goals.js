@@ -7,16 +7,17 @@ export async function getGoals({ year, month, status, type } = {}) {
   if (status) params.set('status', status);
   if (type) params.set('type', type);
   const data = await request(`/goals?${params}`);
-  return Array.isArray(data) ? data : data?.items || [];
+  return Array.isArray(data) ? data : data?.items || data?.results || [];
 }
 
 export async function getCurrentGoals() {
-  const data = await request('/goals/current');
-  return Array.isArray(data) ? data : data?.items || [];
+  const data = await request('/goals?status=active');
+  return Array.isArray(data) ? data : data?.items || data?.results || [];
 }
 
 export async function getGoalsHistory() {
-  return request('/goals/history?months=12');
+  const data = await request('/goals/history?months=12');
+  return Array.isArray(data) ? { history: data } : data;
 }
 
 export async function createGoal(goal) {

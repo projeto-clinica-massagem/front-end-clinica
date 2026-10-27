@@ -7,9 +7,12 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json"
+    "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+    "test:e2e": "playwright test",
+    "test:e2e:real": "E2E_REAL=true VITE_MOCK_API=false VITE_API_URL=/api VITE_DEV_API_TARGET=https://resident-ride-gender-portsmouth.trycloudflare.com playwright test tests/e2e/real-api.spec.js"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@sveltejs/adapter-static": "^3.0.8",
     "@sveltejs/kit": "^2.16.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
