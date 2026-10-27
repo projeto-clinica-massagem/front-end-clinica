@@ -10,7 +10,8 @@ test('autentica no Django real e carrega catálogo e agenda', async ({ page }) =
   await page.getByLabel('E-mail').fill(process.env.E2E_EMAIL);
   await page.getByLabel('Senha').fill(process.env.E2E_PASSWORD);
   await page.getByRole('button', { name: /Acessar painel/ }).click();
-  await expect(page.getByText('Visão geral')).toBeVisible();
+  await page.waitForURL('**/front-end-clinica/', { timeout: 30_000 });
+  await expect(page.getByText('Visão geral')).toBeVisible({ timeout: 30_000 });
 
   await page.getByRole('link', { name: /Produtos/ }).click();
   await expect(page.getByText(/Produtos|Nenhum produto|Carregando produtos/).first()).toBeVisible();
