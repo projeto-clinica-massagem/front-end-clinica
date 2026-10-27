@@ -36,6 +36,18 @@ test('cria agendamento e meta usando a API fake', async ({ page }) => {
   await expect(page.getByText('Meta E2E')).toBeVisible();
 });
 
+test('abre e salva o modal de serviços', async ({ page }) => {
+  await login(page);
+  await page.getByRole('link', { name: /Serviços/ }).click();
+  await page.getByRole('button', { name: /Novo serviço/ }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.getByLabel('Nome *').fill('Serviço E2E');
+  await page.getByLabel('Duração (minutos) *').fill('45');
+  await page.getByLabel('Preço (R$) *').fill('90');
+  await page.getByRole('button', { name: 'Criar serviço' }).click();
+  await expect(page.getByText('Serviço E2E')).toBeVisible();
+});
+
 test('exporta dashboard e vendas em CSV', async ({ page }) => {
   await login(page);
   const dashboardDownload = page.waitForEvent('download');
