@@ -61,5 +61,9 @@ npm run test:e2e
 Teste contra o Django real via proxy:
 
 ```bash
-E2E_REAL=true E2E_BASE_URL=http://127.0.0.1:5176 npm run test:e2e -- tests/e2e/real-api.spec.js
+E2E_REAL=true \
+E2E_EMAIL=tenant.admin@demo.example \
+E2E_PASSWORD='use-a-demo-password-from-backend-docs' \
+E2E_BASE_URL=http://127.0.0.1:5176 \
+npm run test:e2e -- tests/e2e/real-api.spec.js
 ```
