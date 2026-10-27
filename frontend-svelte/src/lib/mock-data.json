@@ -13,12 +13,14 @@
     {
       "id": "client-001",
       "name": "Mariana Costa",
+      "cpf": "52998224725",
       "email": "mariana@example.com",
       "phone": "+55 11 98888-1111"
     },
     {
       "id": "client-002",
       "name": "Rafael Lima",
+      "cpf": "11144477735",
       "email": "rafael@example.com",
       "phone": "+55 11 97777-2222"
     }
