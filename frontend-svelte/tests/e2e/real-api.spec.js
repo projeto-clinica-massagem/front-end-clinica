@@ -6,7 +6,7 @@ test('autentica no Django real e carrega catálogo e agenda', async ({ page }) =
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
 
-  await page.goto('/login');
+  await page.goto('login');
   await page.getByLabel('E-mail').fill(process.env.E2E_EMAIL);
   await page.getByLabel('Senha').fill(process.env.E2E_PASSWORD);
   await page.getByRole('button', { name: /Acessar painel/ }).click();
