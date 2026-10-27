@@ -67,7 +67,7 @@ export function mockRequest(path, options = {}) {
   if (url.pathname === '/auth/me') return Promise.resolve(publicUser(data.users[0]));
   if (url.pathname === '/auth/logout' || url.pathname === '/auth/refresh') return Promise.resolve({ message: 'ok' });
   if (url.pathname === '/tenants/config') return Promise.resolve({ tenant: { id: 'tenant-prover', name: 'Prover Clínica', slug: 'prover' }, branding: { logo: null, primary_color: '#b97e42', secondary_color: '#25221f' }, permissions: ['*'] });
-  if (url.pathname === '/clients') return Promise.resolve(paginated(data.clients, url));
+  if (url.pathname === '/clients' && method === 'GET') return Promise.resolve(paginated(data.clients, url));
   if (url.pathname === '/goals/current') return Promise.resolve(data.goals.filter((goal) => goal.status === 'active').map(goalView));
   if (url.pathname === '/goals/history') return Promise.resolve({ history: data.goals.map((goal) => ({ year: goal.year || Number(goal.period?.slice(0, 4)), month: goal.month || Number(goal.period?.slice(5, 7)), revenue_target: goal.type === 'revenue' ? goal.target : 0, revenue_achieved: goal.type === 'revenue' ? goal.current : 0, revenue_progress: goal.type === 'revenue' ? goalView(goal).progress : 0, quantity_target: goal.type === 'quantity' ? goal.target : 0, quantity_achieved: goal.type === 'quantity' ? goal.current : 0, quantity_progress: goal.type === 'quantity' ? goalView(goal).progress : 0 })) });
   if (url.pathname === '/dashboard' || url.pathname === '/dashboard/stats') return Promise.resolve(dashboard(data));
@@ -165,7 +165,7 @@ function goalView(goal) {
 }
 
 function collectionFor(pathname) {
-  const match = pathname.match(/^\/(services|products|appointments|sales|promotions|goals)(?:\/([^/]+))?/);
+  const match = pathname.match(/^\/(services|products|appointments|sales|promotions|goals|clients)(?:\/([^/]+))?/);
   if (match) return { name: match[1], id: match[2] };
   const cartMatch = pathname.match(/^\/cart\/admin\/all(?:\/([^/]+))?/);
   if (cartMatch) return { name: 'carts', id: cartMatch[1] };

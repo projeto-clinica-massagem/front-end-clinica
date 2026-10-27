@@ -14,6 +14,8 @@ test('autentica no Django real e carrega catálogo e agenda', async ({ page }) =
 
   await page.getByRole('link', { name: /Produtos/ }).click();
   await expect(page.getByText(/Produtos|Nenhum produto|Carregando produtos/).first()).toBeVisible();
+  await page.getByRole('link', { name: /Clientes/ }).click();
+  await expect(page.getByText(/Clientes|Nenhum cliente|Carregando clientes/).first()).toBeVisible();
   await page.getByRole('link', { name: /Agendamentos/ }).click();
   await expect(page.getByText(/Agendamentos|Nenhum agendamento|Carregando agendamentos/).first()).toBeVisible();
   await page.getByRole('link', { name: /Metas/ }).click();
