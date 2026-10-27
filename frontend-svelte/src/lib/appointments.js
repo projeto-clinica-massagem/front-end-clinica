@@ -1,11 +1,11 @@
 import { isMockApi, request } from './api.js';
 
 export async function getAppointments({ search = '', status = '' } = {}) {
-  const params = new URLSearchParams({ page: '1', limit: '100' });
+  const params = new URLSearchParams({ page: '1', page_size: '100' });
   if (search) params.set('search', search);
   if (status) params.set('status', status);
   const data = await request(`/appointments?${params}`);
-  return Array.isArray(data) ? data : data?.items || [];
+  return Array.isArray(data) ? data : data?.items || data?.results || [];
 }
 
 export async function getClients() {
@@ -26,9 +26,18 @@ export async function getRooms() {
 }
 
 export async function getActiveServices() {
-  const data = await request('/services?page=1&limit=100&active=true');
-  const services = Array.isArray(data) ? data : data?.items || [];
+  const data = await request(`/services?page=1&page_size=100&limit=100&active=true`);
+  const services = Array.isArray(data) ? data : data?.items || data?.results || [];
   return services.filter((service) => service.active !== false);
+}
+
+export async function getAvailableSlots(date, duration, massagistaId = '') {
+  if (isMockApi()) {
+    return { available_slots: ['09:00', '10:30', '13:00', '14:30', '16:00'] };
+  }
+  const params = new URLSearchParams({ date, duration: String(duration) });
+  if (massagistaId) params.set('massagista_id', String(massagistaId));
+  return request(`/appointments/available/slots?${params}`);
 }
 
 export async function createAppointment(appointment) {

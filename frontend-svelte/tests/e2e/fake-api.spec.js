@@ -24,8 +24,9 @@ test('cria agendamento e meta usando a API fake', async ({ page }) => {
   await page.getByRole('button', { name: /Novo agendamento/ }).click();
   await page.getByLabel('Cliente *').selectOption('client-001');
   await page.getByLabel('Serviço *').selectOption('service-001');
-  await page.getByLabel('Data e hora *').fill('2026-12-25T12:00');
-  await page.getByRole('button', { name: 'Criar agendamento' }).click();
+  await page.locator('.calendar-day:not(.outside)').first().click();
+  await page.getByRole('button', { name: '09:00' }).click();
+  await page.getByRole('button', { name: 'Confirmar agendamento' }).click();
   await expect(page.getByText('Mariana Costa').first()).toBeVisible();
 
   await page.getByRole('link', { name: /Metas/ }).click();
