@@ -50,10 +50,11 @@
   }
 
   async function loadSlots() {
-    if (!selectedDate || !selectedService) { slots = []; return; }
+    const service = services.find((item) => String(item.id) === String(form.service_id));
+    if (!selectedDate || !service) { slots = []; return; }
     slotsLoading = true;
     try {
-      const result = await getAvailableSlots(selectedDate, selectedService.duration_minutes, form.massagista_id);
+      const result = await getAvailableSlots(selectedDate, service.duration_minutes, form.massagista_id);
       slots = result.available_slots || result.slots || [];
     } catch (exception) {
       slots = [];
@@ -87,6 +88,7 @@
   }
 
   function openCreate() {
+    if (optionsLoading) { error = 'Carregando opções da agenda...'; return; }
     editingAppointment = null;
     selectedDate = defaultDate();
     selectedTime = '';
@@ -151,7 +153,7 @@
 <svelte:head><title>Agendamentos | Prover</title></svelte:head>
 
 <section class="page-stack">
-  <div class="page-actions"><div><p class="muted">Agenda da clínica</p><h2>Agendamentos</h2></div><button class="primary-button compact" on:click={openCreate}>+ Novo agendamento</button></div>
+  <div class="page-actions"><div><p class="muted">Agenda da clínica</p><h2>Agendamentos</h2></div><button class="primary-button compact" on:click={openCreate} disabled={optionsLoading}>+ Novo agendamento</button></div>
   <div class="toolbar"><input aria-label="Buscar agendamento" bind:value={search} on:keydown={(event) => event.key === 'Enter' && load()} placeholder="Buscar cliente ou serviço..." /><select aria-label="Filtrar status" bind:value={statusFilter} on:change={load}><option value="">Todos os status</option><option value="pending">Pendentes</option><option value="scheduled">Agendados</option><option value="confirmed">Confirmados</option><option value="cancelled">Cancelados</option></select><button class="secondary-button compact" on:click={load}>Buscar</button></div>
   {#if error}<div class="notice error-notice">{error}</div>{/if}
   {#if loading}<div class="panel empty-state">Carregando agendamentos...</div>{:else if appointments.length === 0}<div class="panel empty-state">Nenhum agendamento encontrado.</div>{:else}<div class="panel table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Data e hora</th><th>Status</th><th>Ações</th></tr></thead><tbody>{#each appointments as appointment}<tr><td><strong>{appointment.client_name}</strong></td><td>{appointment.service_name}</td><td>{new Date(appointment.scheduled_date || appointment.scheduled_start).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</td><td><span class:inactive={appointment.status === 'cancelled'} class="status-pill">{statusLabel(appointment.status)}</span></td><td><div class="row-actions"><button class="table-action" on:click={() => openEdit(appointment)} disabled={appointment.status === 'cancelled'}>Editar</button>{#if appointment.status !== 'cancelled'}<button class="table-action danger-action" on:click={() => cancel(appointment)}>Cancelar</button>{/if}</div></td></tr>{/each}</tbody></table></div>{/if}
