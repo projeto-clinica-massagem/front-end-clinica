@@ -9,7 +9,7 @@ export async function getProducts({ page = 1, limit = 20, search = '', active, c
 
   const data = await request(`/products?${params}`);
   if (Array.isArray(data)) return { items: data, total: data.length, page: 1, pages: 1 };
-  return { items: data?.items || [], total: data?.total || 0, page: data?.page || 1, pages: data?.pages || 1 };
+  return { items: data?.items || data?.results || [], total: data?.total ?? data?.count ?? 0, page: data?.page || 1, pages: data?.pages || Math.max(1, Math.ceil((data?.count || 0) / (data?.limit || 20))) };
 }
 
 export async function createProduct(product) {

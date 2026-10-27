@@ -10,7 +10,7 @@ export async function getServices({ page = 1, limit = 20, search = '' } = {}) {
   }
 
   return {
-    items: data?.items || [],
+    items: data?.items || data?.results || [],
     total: data?.total || 0,
     page: data?.page || 1,
     pages: data?.pages || 1

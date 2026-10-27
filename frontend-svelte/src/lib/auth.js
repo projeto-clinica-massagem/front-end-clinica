@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-import { request } from './api.js';
+import { isMockApi, request } from './api.js';
 
 const initialUser = browser ? JSON.parse(localStorage.getItem('user') || 'null') : null;
 export const user = writable(initialUser);
@@ -18,11 +18,14 @@ export async function login(email, password) {
     user.set(result.user);
   }
 
-  const tenantId = decodeTenant(result.access_token);
+  const tenantId = result.user?.tenant_id;
   if (tenantId) localStorage.setItem('tenant_id', tenantId);
 }
 
-export function logout() {
+export async function logout() {
+  if (!isMockApi() && localStorage.getItem('access_token')) {
+    await request('/auth/logout', { method: 'POST' }).catch(() => {});
+  }
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('tenant_id');
@@ -34,13 +37,4 @@ export function isAuthenticated() {
   return browser && Boolean(
     localStorage.getItem('access_token') && localStorage.getItem('user')
   );
-}
-
-function decodeTenant(token) {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
-    return payload.tenant_id || null;
-  } catch {
-    return null;
-  }
 }
