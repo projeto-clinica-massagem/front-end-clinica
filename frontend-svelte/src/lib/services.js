@@ -16,3 +16,15 @@ export async function getServices({ page = 1, limit = 20, search = '' } = {}) {
     pages: data?.pages || 1
   };
 }
+
+export async function createService(service) {
+  return request('/services', { method: 'POST', body: JSON.stringify(service) });
+}
+
+export async function updateService(id, service) {
+  return request(`/services/${id}`, { method: 'PUT', body: JSON.stringify(service) });
+}
+
+export async function deleteService(id) {
+  return request(`/services/${id}`, { method: 'DELETE' });
+}
