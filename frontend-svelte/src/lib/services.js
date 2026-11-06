@@ -1,4 +1,4 @@
-import { request } from './api.js';
+import { isMockApi, request } from './api.js';
 
 export async function getServices({ page = 1, limit = 20, search = '' } = {}) {
   const params = new URLSearchParams({ page, limit });
@@ -22,7 +22,7 @@ export async function createService(service) {
 }
 
 export async function updateService(id, service) {
-  return request(`/services/${id}`, { method: 'PUT', body: JSON.stringify(service) });
+  return request(`/services/${id}`, { method: isMockApi() ? 'PUT' : 'PATCH', body: JSON.stringify(service) });
 }
 
 export async function deleteService(id) {
