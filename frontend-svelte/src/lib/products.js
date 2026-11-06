@@ -1,4 +1,4 @@
-import { request } from './api.js';
+import { isMockApi, request } from './api.js';
 
 export async function getProducts({ page = 1, limit = 20, search = '', active, category = '', lowStock = false } = {}) {
   const params = new URLSearchParams({ page: String(page), limit: String(limit) });
@@ -8,8 +8,10 @@ export async function getProducts({ page = 1, limit = 20, search = '', active, c
   if (lowStock) params.set('low_stock', 'true');
 
   const data = await request(`/products?${params}`);
-  if (Array.isArray(data)) return { items: data, total: data.length, page: 1, pages: 1 };
-  return { items: data?.items || data?.results || [], total: data?.total ?? data?.count ?? 0, page: data?.page || 1, pages: data?.pages || Math.max(1, Math.ceil((data?.count || 0) / (data?.limit || 20))) };
+  const items = Array.isArray(data) ? data : data?.items || data?.results || [];
+  const visibleItems = lowStock ? items.filter((item) => Number(item.stock) <= 8) : items;
+  if (Array.isArray(data)) return { items: visibleItems, total: visibleItems.length, page: 1, pages: 1 };
+  return { items: visibleItems, total: lowStock ? visibleItems.length : (data?.total ?? data?.count ?? 0), page: data?.page || 1, pages: data?.pages || Math.max(1, Math.ceil((data?.count || 0) / (data?.limit || 20))) };
 }
 
 export async function createProduct(product) {
@@ -17,7 +19,7 @@ export async function createProduct(product) {
 }
 
 export async function updateProduct(id, product) {
-  return request(`/products/${id}`, { method: 'PUT', body: JSON.stringify(product) });
+  return request(`/products/${id}`, { method: isMockApi() ? 'PUT' : 'PATCH', body: JSON.stringify(product) });
 }
 
 export async function deleteProduct(id) {
