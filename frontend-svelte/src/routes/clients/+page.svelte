@@ -73,7 +73,7 @@
 <svelte:head><title>Clientes | Prover</title></svelte:head>
 
 <section class="page-stack">
-  <div class="page-actions"><div><p class="muted">Diretório da clínica</p><h2>Clientes</h2></div><button class="primary-button compact" on:click={openCreate}>+ Novo cliente</button></div>
+  <div class="page-actions"><div><p class="muted">Diretório da clínica</p></div><button class="primary-button compact" on:click={openCreate}>+ Novo cliente</button></div>
   <div class="toolbar"><input aria-label="Buscar cliente" bind:value={search} placeholder="Buscar por nome, CPF, e-mail ou telefone..." /><button class="secondary-button compact" on:click={load}>Atualizar</button></div>
   {#if error}<div class="notice error-notice">{error}</div>{/if}
   {#if loading}<div class="panel empty-state">Carregando clientes...</div>{:else if filteredClients.length === 0}<div class="panel empty-state">Nenhum cliente encontrado.</div>{:else}<div class="panel table-wrap"><table><thead><tr><th>Cliente</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Ações</th></tr></thead><tbody>{#each filteredClients as client}<tr><td><strong>{client.name || 'Sem nome'}</strong></td><td>{client.cpf || '-'}</td><td>{client.email || '-'}</td><td>{client.phone || '-'}</td><td><div class="row-actions"><button class="table-action" on:click={() => openEdit(client)}>Editar</button><button class="table-action danger-action" on:click={() => remove(client)}>Excluir</button></div></td></tr>{/each}</tbody></table></div>{/if}

@@ -7,11 +7,13 @@
 
   let checkingSession = true;
   let sessionAllowed = false;
+  const applicationName = import.meta.env.VITE_APP_NAME || 'Clínica';
   const links = [
     { href: `${base}/`, label: 'Dashboard', icon: '▦' },
     { href: `${base}/services`, label: 'Serviços', icon: '✦' },
     { href: `${base}/products`, label: 'Produtos', icon: '□' },
     { href: `${base}/clients`, label: 'Clientes', icon: '○' },
+    { href: `${base}/carts`, label: 'Carrinhos', icon: '□' },
     { href: `${base}/appointments`, label: 'Agendamentos', icon: '◷' },
     { href: `${base}/goals`, label: 'Metas', icon: '◎' },
     { href: `${base}/sales`, label: 'Vendas', icon: '↗' }
@@ -53,7 +55,7 @@
     <aside class="sidebar">
       <a class="brand" href={`${base}/`}>
         <span class="brand-mark">P</span>
-        <span>Prover <small>ADMIN</small></span>
+        <span>{applicationName} <small>ADMIN</small></span>
       </a>
       <nav aria-label="Navegação principal">
         {#each links as link}

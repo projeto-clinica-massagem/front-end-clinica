@@ -3,7 +3,7 @@
   import { cancelAppointment, createAppointment, getActiveServices, getAppointments, getAvailableSlots, getClients, getMassagistas, getRooms, updateAppointment } from '$lib/appointments.js';
   import { isMockApi } from '$lib/api.js';
 
-  const emptyForm = () => ({ client_id: '', service_id: '', massagista_id: '', room_id: '', notes: '', status: 'pending' });
+  const emptyForm = () => ({ client_id: '', service_id: '', massagista_id: '', room_id: '', notes: '', status: 'scheduled' });
   let appointments = [];
   let clients = [];
   let services = [];
@@ -153,7 +153,7 @@
 <svelte:head><title>Agendamentos | Prover</title></svelte:head>
 
 <section class="page-stack">
-  <div class="page-actions"><div><p class="muted">Agenda da clínica</p><h2>Agendamentos</h2></div><button class="primary-button compact" on:click={openCreate} disabled={optionsLoading}>+ Novo agendamento</button></div>
+  <div class="page-actions"><div><p class="muted">Agenda da clínica</p></div><button class="primary-button compact" on:click={openCreate} disabled={optionsLoading}>+ Novo agendamento</button></div>
   <div class="toolbar"><input aria-label="Buscar agendamento" bind:value={search} on:keydown={(event) => event.key === 'Enter' && load()} placeholder="Buscar cliente ou serviço..." /><select aria-label="Filtrar status" bind:value={statusFilter} on:change={load}><option value="">Todos os status</option><option value="pending">Pendentes</option><option value="scheduled">Agendados</option><option value="confirmed">Confirmados</option><option value="cancelled">Cancelados</option></select><button class="secondary-button compact" on:click={load}>Buscar</button></div>
   {#if error}<div class="notice error-notice">{error}</div>{/if}
   {#if loading}<div class="panel empty-state">Carregando agendamentos...</div>{:else if appointments.length === 0}<div class="panel empty-state">Nenhum agendamento encontrado.</div>{:else}<div class="panel table-wrap"><table><thead><tr><th>Cliente</th><th>Serviço</th><th>Data e hora</th><th>Status</th><th>Ações</th></tr></thead><tbody>{#each appointments as appointment}<tr><td><strong>{appointment.client_name}</strong></td><td>{appointment.service_name}</td><td>{new Date(appointment.scheduled_date || appointment.scheduled_start).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}</td><td><span class:inactive={appointment.status === 'cancelled'} class="status-pill">{statusLabel(appointment.status)}</span></td><td><div class="row-actions"><button class="table-action" on:click={() => openEdit(appointment)} disabled={appointment.status === 'cancelled'}>Editar</button>{#if appointment.status !== 'cancelled'}<button class="table-action danger-action" on:click={() => cancel(appointment)}>Cancelar</button>{/if}</div></td></tr>{/each}</tbody></table></div>{/if}

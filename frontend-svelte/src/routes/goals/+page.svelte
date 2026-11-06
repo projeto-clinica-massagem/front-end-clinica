@@ -72,7 +72,7 @@
 <svelte:head><title>Metas | Prover</title></svelte:head>
 
 <section class="page-stack">
-  <div class="page-actions"><div><p class="muted">Acompanhe seus objetivos</p><h2>Metas</h2></div><button class="primary-button compact" on:click={openCreate}>+ Nova meta</button></div>
+  <div class="page-actions"><div><p class="muted">Acompanhe seus objetivos</p></div><button class="primary-button compact" on:click={openCreate}>+ Nova meta</button></div>
   <div class="goal-tabs"><button class:active={activeTab === 'current'} on:click={() => activeTab = 'current'}>Mês atual</button><button class:active={activeTab === 'history'} on:click={() => activeTab = 'history'}>Histórico</button><button class:active={activeTab === 'all'} on:click={() => activeTab = 'all'}>Todas as metas</button></div>
   {#if error}<div class="notice error-notice">{error}</div>{/if}
   {#if loading}<div class="panel empty-state">Carregando metas...</div>

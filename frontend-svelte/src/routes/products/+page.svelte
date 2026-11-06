@@ -107,7 +107,7 @@
 <svelte:head><title>Produtos | Prover</title></svelte:head>
 
 <section class="page-stack">
-  <div class="page-actions"><div><p class="muted">Catálogo e estoque</p><h2>Produtos</h2></div><button class="primary-button compact" on:click={openCreate}>+ Novo produto</button></div>
+  <div class="page-actions"><div><p class="muted">Catálogo e estoque</p></div><button class="primary-button compact" on:click={openCreate}>+ Novo produto</button></div>
   <div class="toolbar product-toolbar"><input aria-label="Buscar produto" bind:value={search} on:keydown={(event) => event.key === 'Enter' && load()} placeholder="Buscar por nome..." /><select aria-label="Filtrar categoria" bind:value={categoryFilter} on:change={load}><option value="">Todas as categorias</option>{#each categories as category}<option value={category}>{category}</option>{/each}</select><label class="check-filter"><input type="checkbox" bind:checked={stockFilter} on:change={load} /> Estoque baixo</label><button class="secondary-button compact" on:click={load}>Buscar</button></div>
   {#if error}<div class="notice error-notice">{error}</div>{/if}
   {#if loading}<div class="panel empty-state">Carregando produtos...</div>

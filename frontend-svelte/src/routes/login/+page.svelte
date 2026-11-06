@@ -3,6 +3,8 @@
   import { base } from '$app/paths';
   import { login } from '$lib/auth.js';
 
+  const applicationName = import.meta.env.VITE_APP_NAME || 'Clínica';
+
   let email = '';
   let password = '';
   let loading = false;
@@ -27,7 +29,7 @@
 <main class="login-page">
   <section class="login-visual">
     <div class="visual-copy">
-      <span class="brand-mark large">P</span>
+      <span class="brand-mark large">{applicationName.slice(0, 1).toUpperCase()}</span>
       <p class="eyebrow">GESTÃO INTELIGENTE</p>
       <h1>Cuide da operação.<br /><em>O resto flui.</em></h1>
       <p>Um espaço único para acompanhar sua clínica, sua equipe e seus resultados.</p>
@@ -36,7 +38,7 @@
   <section class="login-panel">
     <div class="login-card">
       <p class="eyebrow">BEM-VINDO DE VOLTA</p>
-      <h2>Entrar no painel</h2>
+      <h2>Entrar no painel {applicationName}</h2>
       <p class="muted">Use suas credenciais administrativas para continuar.</p>
       <form on:submit|preventDefault={submit}>
         <label for="email">E-mail</label>
