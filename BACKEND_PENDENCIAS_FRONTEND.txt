@@ -1,0 +1,39 @@
+PENDENCIAS DO BACKEND PARA COMPLETAR O FRONTEND
+
+Estas pendencias nao devem ser resolvidas com regra apenas no frontend.
+
+1. Ficha de anamnese
+- Criar modelo e migration.
+- Criar GET/PATCH da ficha por cliente.
+- Definir campos obrigatorios e sensiveis.
+- Restringir acesso a atendente, manager, tenant_admin e massagista autorizado.
+- Registrar auditoria das alteracoes.
+
+2. Notificacoes de agendamento
+- Notificar o massagista quando um agendamento for criado.
+- Criar endpoint de listagem e leitura das notificacoes.
+- Integrar Celery/Redis quando necessario.
+- Definir estados: enviada, lida e falha.
+
+3. Antecedencia de agendamento
+- Garantir regra de pelo menos 30 minutos no backend.
+- Preferir configuracao `min_advance_minutes: 30` no TenantConfig.
+- Retornar erro 400 quando o horario estiver muito proximo ou no passado.
+
+4. Filtro de periodo de agendamentos
+- Adicionar filtros `start_date` e `end_date` em GET /api/appointments/.
+- Aplicar filtro no banco, evitando carregar historico inteiro no frontend.
+
+5. Status e transicoes
+- Confirmar transicoes permitidas: scheduled, cancelled e completed.
+- Permitir somente perfis autorizados para marcar uma sessao como completed.
+- Retornar erro 409 para transicao invalida.
+
+6. Carrinhos administrativos
+- Confirmar endpoint para atendente listar carrinhos de clientes.
+- Confirmar endpoint para combos/descontos administrativos.
+- Definir permissoes e isolamento por tenant.
+
+7. Combos e promocoes
+- Confirmar suporte a varios servicos no payload de promocao.
+- Validar itens, quantidades, desconto e validade no backend.

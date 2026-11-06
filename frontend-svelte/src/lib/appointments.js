@@ -63,6 +63,7 @@ function toBackendAppointment(appointment) {
     scheduled_start: start.toISOString(),
     scheduled_end: end.toISOString(),
     service_ids: [appointment.service_id],
-    notes: appointment.notes || ''
+    notes: appointment.notes || '',
+    status: appointment.status || 'scheduled'
   };
 }
