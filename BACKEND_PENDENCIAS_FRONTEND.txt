@@ -2,6 +2,23 @@ PENDENCIAS DO BACKEND PARA COMPLETAR O FRONTEND
 
 Estas pendencias nao devem ser resolvidas com regra apenas no frontend.
 
+STATUS DO QUE JA EXISTE
+- CORS para GitHub Pages: implementado e validado.
+- Usuarios, clientes e massagistas: implementado.
+- Salas, bloqueios e feriados: endpoints disponiveis.
+- Slots de agenda: endpoint disponivel.
+- CRUD de produtos, servicos, metas e agendamentos: disponivel.
+- Promocoes com itens: contrato disponivel; falta validar o fluxo de combo administrativo.
+
+PRIORIDADE SUGERIDA
+1. Ficha de anamnese.
+2. Notificacoes de agendamento.
+3. Antecedencia minima de 30 minutos.
+4. Transicoes do status `completed`.
+5. Filtro de agendamentos por periodo.
+6. Carrinhos administrativos.
+7. Combos enviados ao carrinho do cliente.
+
 1. Ficha de anamnese
 - Criar modelo e migration.
 - Criar GET/PATCH da ficha por cliente.
@@ -37,3 +54,11 @@ Estas pendencias nao devem ser resolvidas com regra apenas no frontend.
 7. Combos e promocoes
 - Confirmar suporte a varios servicos no payload de promocao.
 - Validar itens, quantidades, desconto e validade no backend.
+
+8. Resposta completa de agendamentos
+- Avaliar incluir `client_name`, `massagista_name`, `room_name` e `service_names` no serializer.
+- Alternativamente, manter a resolucao dos nomes no frontend.
+
+9. Regras de permissao
+- Garantir que atendentes/manager possam operar somente clientes do proprio tenant.
+- Garantir que massagistas vejam apenas agendamentos e anamneses autorizados.
