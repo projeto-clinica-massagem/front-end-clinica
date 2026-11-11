@@ -27,6 +27,7 @@ export async function deleteProduct(id) {
 }
 
 export async function getProductCategories() {
+  if (!isMockApi()) return [];
   const data = await request('/products/categories/list');
   return Array.isArray(data) ? data : data?.categories || [];
 }

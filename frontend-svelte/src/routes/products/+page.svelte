@@ -21,6 +21,7 @@
     try {
       const result = await getProducts({ search, category: categoryFilter, lowStock: stockFilter });
       products = result.items;
+      if (!categories.length) categories = [...new Set(products.map((product) => product.category).filter(Boolean))];
     } catch (exception) {
       error = exception.message || 'Não foi possível carregar os produtos.';
     } finally {
