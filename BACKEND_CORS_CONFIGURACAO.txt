@@ -1,0 +1,96 @@
+CONFIGURACAO DE CORS DO BACKEND DJANGO
+
+O frontend publicado no GitHub Pages usa esta origem:
+
+https://projeto-clinica-massagem.github.io
+
+O backend atualmente responde ao cURL, mas o navegador bloqueia as requisicoes porque o Django ainda nao envia os headers CORS.
+
+1. Instalar a dependencia
+
+Adicionar ao requirements-django.txt:
+
+django-cors-headers
+
+Depois reinstalar as dependencias do backend.
+
+2. Adicionar o app
+
+No django_backend/settings.py:
+
+INSTALLED_APPS = [
+    ...,
+    "corsheaders",
+]
+
+3. Adicionar o middleware
+
+O CorsMiddleware deve ficar antes do CommonMiddleware:
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    ...,
+]
+
+4. Configurar origens permitidas
+
+CORS_ALLOWED_ORIGINS = [
+    "https://projeto-clinica-massagem.github.io",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
+    "http://localhost:5176",
+    "http://127.0.0.1:5176",
+]
+
+Em producao, manter somente as origens realmente necessarias.
+
+5. Headers e metodos
+
+O backend precisa aceitar:
+
+Headers:
+- Authorization
+- Content-Type
+
+Metodos:
+- GET
+- POST
+- PUT
+- PATCH
+- DELETE
+- OPTIONS
+
+6. Cookies
+
+O frontend usa JWT no header Authorization, nao autenticacao por cookie. Portanto:
+
+CORS_ALLOW_CREDENTIALS = False
+
+7. Testar preflight
+
+Depois de reiniciar o backend, testar:
+
+OPTIONS /api/auth/login/
+
+A resposta deve conter headers semelhantes a:
+
+Access-Control-Allow-Origin: https://projeto-clinica-massagem.github.io
+Access-Control-Allow-Headers: Authorization, Content-Type
+Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
+
+8. Configuracao do frontend no GitHub
+
+Depois que o CORS estiver funcionando, cadastrar nas Variables do repositorio:
+
+VITE_MOCK_API=false
+VITE_API_URL=https://regulation-dave-tell-tsunami.trycloudflare.com/api
+
+Importante:
+
+- O Quick Tunnel pode mudar de URL.
+- Se a URL mudar, atualizar VITE_API_URL.
+- cURL funcionar nao significa que o navegador funcionara; CORS e uma regra aplicada pelo navegador.
+- Nao usar credenciais reais no frontend ou em arquivos versionados.
