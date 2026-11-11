@@ -1,22 +1,57 @@
-ACESSO DO FRONTEND
+ACESSOS DO SISTEMA
 
+FRONTEND - GITHUB PAGES
 URL:
-https://allefgoncalves.github.io/front-end-clinica/
+https://projeto-clinica-massagem.github.io/front-end-clinica/
 
-LOGIN DE TESTE:
+BACKEND - API DJANGO
+URL BASE:
+https://regulation-dave-tell-tsunami.trycloudflare.com/api
+
+SWAGGER:
+https://regulation-dave-tell-tsunami.trycloudflare.com/api/docs/
+
+OPENAPI:
+https://regulation-dave-tell-tsunami.trycloudflare.com/api/schema/
+
+HEALTH CHECK:
+https://regulation-dave-tell-tsunami.trycloudflare.com/health/ready/
+
+LOGIN REAL - AMBIENTE DEMO
+E-mail: tenant.admin@demo.example
+Senha: DemoTenant-2026!
+
+OUTROS ACESSOS DEMO
+Platform admin:
+E-mail: platform.admin@demo.example
+Senha: DemoPlatform-2026!
+
+Manager:
+E-mail: manager@demo.example
+Senha: DemoManager-2026!
+
+Massagista:
+E-mail: massagista@demo.example
+Senha: DemoMassagista-2026!
+
+Cliente:
+E-mail: client@demo.example
+Senha: DemoClient-2026!
+
+LOGIN FAKE LOCAL
 E-mail: admin@prover.com
 Senha: 123456
 
-API FAKE:
-A API fake está integrada no frontend e usa os dados de:
-frontend-svelte/src/lib/mock-data.json
+CONFIGURACAO
+O frontend publicado esta configurado para usar a API Django real.
 
-As alterações feitas durante os testes são armazenadas no localStorage do navegador.
+VITE_MOCK_API=false
+VITE_API_URL=https://regulation-dave-tell-tsunami.trycloudflare.com/api
 
-STATUS:
-- GitHub Pages publicado
-- Build aprovado
-- Deploy aprovado
-- API fake funcionando no navegador
-
-Para limpar os dados alterados durante os testes, limpe o localStorage do domínio no navegador.
+OBSERVACOES
+- A URL do backend usa Cloudflare Quick Tunnel e pode mudar.
+- Se a URL mudar, atualize VITE_API_URL e faca novo deploy.
+- Os acessos acima sao somente para demonstracao.
+- Nunca reutilize essas credenciais em producao.
+- O frontend fake local usa frontend-svelte/src/lib/mock-data.json.
+- Dados fake alterados ficam no localStorage do navegador.
